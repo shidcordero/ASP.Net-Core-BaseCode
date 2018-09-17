@@ -1,0 +1,8 @@
+.vs/
+Domain/bin/
+Domain/obj/
+Data/obj/
+Data/bin/
+ASP/obj/
+ASP/Logs/BaseCode/
+ASP/bin/

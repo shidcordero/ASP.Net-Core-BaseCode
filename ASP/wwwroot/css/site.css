@@ -1,0 +1,71 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+/* Putting icon to the right of table header*/
+.sortable-table > thead > tr > th {
+    position: relative;
+}
+
+.float-vertical-align {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}
+
+/* Normalize button min width */
+.btn {
+    min-width: 80px
+}
+
+/* align filter button to fields */
+.search-btn {
+    margin-top: 25px;
+}
+
+/* Remove textarea resize */
+textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+/* Adding asterisk to required fields */
+.required:after 
+{
+    content: " *";
+    font-weight: bold;
+    color: red; 
+}

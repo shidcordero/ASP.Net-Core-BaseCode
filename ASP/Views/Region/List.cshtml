@@ -1,0 +1,142 @@
+﻿@using Data.ViewModels.Region
+@using static Data.Utilities.Extensions;
+@using Data.Models.Entities;
+@using Data.Utilities
+@using Data.ViewModels.Modal
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model Tuple<RegionSearchViewModel, PaginatedList<Region>>
+
+@{
+    ViewData["Title"] = "Region - List";
+    const string modalId = "delete";
+    const string ariaModalId = "delete-label";
+}
+
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+<hr />
+
+<form class="row" asp-action="List" method="post">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="Item1.RegionName"></label>
+            <input asp-for="Item1.RegionName" name="RegionName" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <button type="submit" class="btn btn-info search-btn">Search</button>
+        </div>
+    </div>
+</form>
+<hr />
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <div class="form-group">
+            <a asp-action="Create" class="btn btn-success"><i class="fa fa-plus"></i> Add Region</a>
+        </div>
+    </div>
+</div>
+
+<table class="table sortable-table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="List"
+                   asp-route-SortBy="@Constants.Region.RegionName"
+                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                    Region
+                </a>
+                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+            </th>
+            <th>
+                <a asp-action="List"
+                   asp-route-SortBy="@Constants.Region.RegionCode"
+                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                    Region Code
+                </a>
+                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+            </th>
+            <th>
+                <a asp-action="List"
+                   asp-route-SortBy="@Constants.Region.RegionKey"
+                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                    Region Key
+                </a>
+                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+            </th>
+            <th>
+                <a asp-action="List"
+                   asp-route-SortBy="@Constants.Region.Description"
+                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                    Description
+                </a>
+                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+            </th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Item2.Count == 0)
+        {
+            <tr>
+                <td colspan="5" class="text-center">No records found.</td>
+            </tr>
+        }
+        else
+        {
+            foreach (var item in Model.Item2)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegionName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegionCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegionKey)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Edit" asp-route-id="@item.RegionId"><i class="fa fa-edit text-info"></i></a>
+                        <a data-toggle="modal" asp-action="Delete" data-target="#@modalId" asp-route-id="@item.RegionId"><i class="fa fa-trash text-danger"></i></a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.Item2.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Item2.HasNextPage ? "disabled" : "";
+}
+<div class="row text-center">
+    <a asp-action="List"
+       asp-route-SortBy="@Model.Item1.SortOrder"
+       asp-route-Page="@(Model.Item2.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        <i class="fa fa-caret-left"></i> Previous
+    </a>
+    <a asp-action="List"
+       asp-route-SortBy="@Model.Item1.SortOrder"
+       asp-route-Page="@(Model.Item2.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Next <i class="fa fa-caret-right"></i>
+    </a>
+</div>
+
+@await Html.PartialAsync("_Modal", new Modal
+{
+    Id = modalId,
+    AriaLabelId = ariaModalId,
+    Size = ModalSize.Medium
+})
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ModalScriptsInit", modalId);}
+}
