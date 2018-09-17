@@ -1,9 +1,8 @@
-﻿@using Data.ViewModels.Region
-@using static Data.Utilities.Extensions;
-@using Data.Models.Entities;
+﻿@using Data.Models.Entities
 @using Data.Utilities
 @using Data.ViewModels.Modal
-@using Microsoft.AspNetCore.Mvc.Rendering
+@using Data.ViewModels.Region
+@using static Data.Utilities.Extensions;
 @model Tuple<RegionSearchViewModel, PaginatedList<Region>>
 
 @{
@@ -45,34 +44,34 @@
             <th>
                 <a asp-action="List"
                    asp-route-SortBy="@Constants.Region.RegionName"
-                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                   asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Region
                 </a>
-                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+                <i class="fa float-vertical-align @Helpers.GetSortIcon(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
             </th>
             <th>
                 <a asp-action="List"
                    asp-route-SortBy="@Constants.Region.RegionCode"
-                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                   asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Region Code
                 </a>
-                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+                <i class="fa float-vertical-align @Helpers.GetSortIcon(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
             </th>
             <th>
                 <a asp-action="List"
                    asp-route-SortBy="@Constants.Region.RegionKey"
-                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                   asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Region Key
                 </a>
-                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+                <i class="fa float-vertical-align @Helpers.GetSortIcon(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
             </th>
             <th>
                 <a asp-action="List"
                    asp-route-SortBy="@Constants.Region.Description"
-                   asp-route-SortOrder="@Data.Utilities.Helpers.GetSortDirection(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)">
+                   asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Description
                 </a>
-                <i class="fa float-vertical-align @Data.Utilities.Helpers.GetSortIcon(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
+                <i class="fa float-vertical-align @Helpers.GetSortIcon(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)"></i>
             </th>
             <th class="text-center">Action</th>
         </tr>
