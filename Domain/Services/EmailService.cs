@@ -105,7 +105,7 @@ namespace Domain.Services
         /// <returns></returns>
         public async Task<bool> SendExceptionEmail(string exceptionName, string exceptionMessage, string stackTrace)
         {
-            var template = _emailTemplateRepository.FindByTemplateName(_exceptionEmailConfig.TemplateName);
+            var template = await _emailTemplateRepository.FindByTemplateName(_exceptionEmailConfig.TemplateName);
             if (template == null) return false;
 
             var mailRequest = new MailRequest
@@ -121,7 +121,7 @@ namespace Domain.Services
 
         public async Task<bool> SendForgotPasswordEmail(AppUser user, string url)
         {
-            var template = _emailTemplateRepository.FindByTemplateName(Constants.EmailTemplate.ForgotPassword);
+            var template = await _emailTemplateRepository.FindByTemplateName(Constants.EmailTemplate.ForgotPassword);
             if (template == null) return false;
 
             var mailRequest = new MailRequest

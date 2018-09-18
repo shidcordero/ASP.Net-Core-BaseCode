@@ -1,7 +1,8 @@
 ﻿using Data.Base;
 using Data.Contracts;
 using Data.Models.Entities;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repositories
 {
@@ -15,14 +16,14 @@ namespace Data.Repositories
         {
         }
 
-        public EmailTemplate FindById(int templateId)
+        public async Task<EmailTemplate> FindById(int templateId)
         {
-            return GetDbSet<EmailTemplate>().Find(templateId);
+            return await GetDbSet<EmailTemplate>().FindAsync(templateId);
         }
 
-        public EmailTemplate FindByTemplateName(string templateName)
+        public async Task<EmailTemplate> FindByTemplateName(string templateName)
         {
-            return GetDbSet<EmailTemplate>().FirstOrDefault(x => x.TemplateName == templateName);
+            return await GetDbSet<EmailTemplate>().FirstOrDefaultAsync(x => x.TemplateName == templateName);
         }
     }
 }

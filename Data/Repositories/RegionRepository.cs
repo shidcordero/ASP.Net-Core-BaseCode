@@ -5,7 +5,6 @@ using Data.Utilities;
 using Data.ViewModels.Region;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +30,8 @@ namespace Data.Repositories
                 sortDir = Constants.SortDirection.Descending;
 
             var regions = GetDbSet<Region>()
-                .Where(x => (string.IsNullOrEmpty(searchViewModel.RegionName) || x.RegionName.Contains(searchViewModel.RegionName, StringComparison.OrdinalIgnoreCase)))
+                .Where(x => (string.IsNullOrEmpty(searchViewModel.RegionName) || 
+                             x.RegionName.Contains(searchViewModel.RegionName, StringComparison.OrdinalIgnoreCase)))
                 .OrderByPropertyName(searchViewModel.SortBy, sortDir);
 
             return await Extensions.PaginatedList<Region>.CreateAsync(regions.AsNoTracking(), searchViewModel.Page, searchViewModel.PageSize);
@@ -117,7 +117,7 @@ namespace Data.Repositories
 
         public async Task DeleteById(int id)
         {
-            var regionDelete = GetDbSet<Region>().FirstOrDefault(x => x.RegionId == id);
+            var regionDelete = await GetDbSet<Region>().FirstOrDefaultAsync(x => x.RegionId == id);
             if (regionDelete != null)
             {
                 GetDbSet<Region>().Remove(regionDelete);
