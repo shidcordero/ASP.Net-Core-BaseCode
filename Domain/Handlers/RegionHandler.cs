@@ -54,7 +54,7 @@ namespace Domain.Handlers
                 var dbRegion = await _regionService.Find(region.RegionId);
                 if (dbRegion != null)
                 {
-                    if (!region.RegionId.Equals(dbRegion.RegionId) && await _regionService.IsRegionExists(region.RegionName))
+                    if (!region.RegionName.Equals(dbRegion.RegionName) && await _regionService.IsRegionExists(region.RegionName))
                     {
                         validationResult = new ValidationResult(Constants.Message.ErrorRecordExists);
                     }

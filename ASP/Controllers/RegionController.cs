@@ -167,7 +167,6 @@ namespace ASP.Controllers
                     await _regionService.DeleteById(id);
 
                     return RedirectToAction(nameof(List));
-                    //return PartialView("_ModalInfo", new Tuple<string, string>(Constants.Message.Info, Constants.Message.RecordSuccessDelete));
                 }
 
                 ModelState.AddModelError(validationResult);
@@ -181,7 +180,6 @@ namespace ASP.Controllers
             ModelState.AddModelError(string.Empty, "Invalid delete attempt.");
 
             return RedirectToAction(nameof(List));
-            //return PartialView("_ModalInfo", new Tuple<string, string>(Constants.Message.Error, ModelState.ToString()));
         }
 
         private IActionResult HandleDeletedRegion(RegionViewModel regionViewModel)
