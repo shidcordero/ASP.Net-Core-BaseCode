@@ -29,8 +29,7 @@ namespace ASP.Controllers
             _emailService = emailService;
             _mapper = mapper;
         }
-
-        [HttpGet, HttpPost]
+        
         public async Task<IActionResult> List(RegionSearchViewModel searchViewModel)
         {
             try
@@ -181,6 +180,9 @@ namespace ASP.Controllers
             }
 
             ModelState.AddModelError(string.Empty, "Invalid delete attempt.");
+
+            TempData[Constants.Common.ModalTitle] = Constants.Message.Error;
+            TempData[Constants.Common.ModalMessage] = Helpers.CreateValidationSummary(ModelState);
 
             return RedirectToAction(nameof(List), searchViewModel);
         }

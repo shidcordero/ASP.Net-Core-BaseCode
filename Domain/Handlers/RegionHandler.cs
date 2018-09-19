@@ -79,7 +79,7 @@ namespace Domain.Handlers
         public async Task<ValidationResult> CanDelete(int regionId)
         {
             ValidationResult validationResult = null;
-            var region = _regionService.Find(regionId);
+            var region = await _regionService.Find(regionId);
 
             if (region == null)
             {

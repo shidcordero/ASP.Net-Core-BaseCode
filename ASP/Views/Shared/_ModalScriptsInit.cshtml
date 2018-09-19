@@ -1,10 +1,12 @@
 ﻿@using Data.Utilities
 @{
-    var text = TempData[Constants.Common.ModalMessage];
-    if (text != null && !text.Equals(string.Empty))
+    var message = TempData[Constants.Common.ModalMessage];
+    var title = TempData[Constants.Common.ModalTitle] ?? "Info";
+    var size = TempData[Constants.Common.ModalSize] ?? "medium";
+    if (message != null && !message.Equals(string.Empty))
     {
         <script type="text/javascript">
-            showDefaultModal("@text");
+            showDefaultModal("@Html.Raw(message)", "@title", "@size");
         </script>
     }
 }

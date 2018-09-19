@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Data.Utilities;
 using Domain.Contracts;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ASP.Utilities
 {
@@ -30,6 +33,22 @@ namespace ASP.Utilities
             {
                 await emailService.SendExceptionEmail(ex.GetType().Name, ex.Message, ex.ToString());
             }
+
+            return message;
+        }
+
+        public static string CreateValidationSummary(ModelStateDictionary modelState)
+        {
+            var message = string.Empty;
+            if (modelState.IsValid)
+                return string.Empty;
+            
+            message += "<div class='text-danger validation-summary-errors' data-valmsg-summary='true'><ul>";
+            message = modelState
+                .Reverse()
+                .Select(x => x.Key).SelectMany(key => modelState[key].Errors)
+                .Aggregate(message, (current, err) => current + ("<li>" + err.ErrorMessage + "</li>"));
+            message += "</ul></div>";
 
             return message;
         }

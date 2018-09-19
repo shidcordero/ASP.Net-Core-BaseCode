@@ -10,6 +10,8 @@
             public const string IdentityErrors = "IdentityErrors";
             public const string Xoauth2 = "XOAUTH2";
             public const string ModalMessage = "ModalMessage";
+            public const string ModalTitle = "ModalTitle";
+            public const string ModalSize = "ModalSize";
             public const string Previous = "prev";
             public const string Next = "next";
         }

@@ -11,7 +11,7 @@
 <h2>@ViewData["Title"]</h2>
 <hr />
 
-<form class="row" asp-action="List" method="post">
+<form class="row" asp-action="List" method="get">
     <div class="col-md-4">
         <div class="form-group">
             <label asp-for="Item1.RegionName"></label>
@@ -106,7 +106,7 @@
                     </td>
                     <td class="text-center">
                         <a asp-action="Edit" asp-route-id="@item.RegionId"><i class="fa fa-edit text-info"></i></a>
-                        <a href="#" onclick="showDeleteConfirmation('@string.Format(Constants.Message.DeletePrompt, item.RegionName)', event, @item.RegionId)"><i class="fa fa-trash text-danger"></i></a>
+                        <a href="#" onclick='showDeleteConfirmation("@string.Format(Constants.Message.DeletePrompt, item.RegionName)", event, @item.RegionId)'><i class="fa fa-trash text-danger"></i></a>
                     </td>
                 </tr>
             }

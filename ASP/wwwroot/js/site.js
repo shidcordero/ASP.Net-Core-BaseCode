@@ -1,6 +1,6 @@
 ﻿// Initialize modal scripts using bootbox
 
-function showDefaultModal(message, title = "Info", size = "medium", confirmText = "Ok") {
+function showDefaultModal(message, title, size, confirmText = "Ok") {
     bootbox.alert({
         title: title,
         message: message,
