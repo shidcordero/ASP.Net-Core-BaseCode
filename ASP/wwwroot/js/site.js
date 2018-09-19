@@ -1,1 +1,44 @@
-﻿// Write your JavaScript code.
+﻿// Initialize modal scripts using bootbox
+
+function showDefaultModal(message, title = "Info", size = "medium", confirmText = "Ok") {
+    bootbox.alert({
+        title: title,
+        message: message,
+        size: size,
+        buttons: {
+            ok: {
+                label: confirmText,
+                className: "btn-success"
+            }
+        }
+    });
+}
+
+function showConfirmationModal(message, title = "Confirm", size = "medium", confirmText = "Yes", canceltext = "No") {
+    const deffered = $.Deferred();
+
+    bootbox.confirm({
+        title: title,
+        message: message,
+        size: size,
+        buttons: {
+            confirm: {
+                label: confirmText,
+                className: "btn-success"
+            },
+            cancel: {
+                label: canceltext,
+                className: "btn-danger"
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                deffered.resolve(result);
+            } else {
+                deffered.reject(result);
+            }
+        }
+    });
+
+    return deffered.promise();
+}

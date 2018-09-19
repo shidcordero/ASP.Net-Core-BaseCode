@@ -75,6 +75,8 @@ namespace ASP.Controllers
                 {
                     await _regionService.Create(region);
 
+                    TempData[Constants.Common.ModalMessage] = Constants.Message.RecordSuccessAdd;
+
                     return RedirectToAction(nameof(List));
                 }
 
@@ -125,7 +127,12 @@ namespace ASP.Controllers
                     if (validationResult == null)
                     {
                         var result = await _regionService.Update(region);
-                        if (result.ValidationResults.Count == 0) return RedirectToAction(nameof(List));
+                        if (result.ValidationResults.Count == 0)
+                        {
+                            TempData[Constants.Common.ModalMessage] = Constants.Message.RecordSuccessUpdate;
+
+                            return RedirectToAction(nameof(List));
+                        }
 
                         ModelState.AddModelErrors(result.ValidationResults);
                         // Must clear the model error for the next postback.
@@ -150,14 +157,9 @@ namespace ASP.Controllers
 
             return View(regionViewModel);
         }
-
-        public IActionResult Delete()
-        {
-            return PartialView("_ModalDelete");
-        }
         
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, RegionSearchViewModel searchViewModel)
         {
             try
             {
@@ -165,8 +167,9 @@ namespace ASP.Controllers
                 if (validationResult == null)
                 {
                     await _regionService.DeleteById(id);
+                    TempData[Constants.Common.ModalMessage] = Constants.Message.RecordSuccessDelete;
 
-                    return RedirectToAction(nameof(List));
+                    return RedirectToAction(nameof(List), searchViewModel);
                 }
 
                 ModelState.AddModelError(validationResult);
@@ -179,7 +182,7 @@ namespace ASP.Controllers
 
             ModelState.AddModelError(string.Empty, "Invalid delete attempt.");
 
-            return RedirectToAction(nameof(List));
+            return RedirectToAction(nameof(List), searchViewModel);
         }
 
         private IActionResult HandleDeletedRegion(RegionViewModel regionViewModel)

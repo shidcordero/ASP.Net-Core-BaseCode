@@ -37,6 +37,7 @@
 /* Putting icon to the right of table header*/
 .sortable-table > thead > tr > th {
     position: relative;
+    width: 10%;
 }
 
 .float-vertical-align {

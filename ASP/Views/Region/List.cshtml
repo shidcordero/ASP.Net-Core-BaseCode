@@ -1,18 +1,14 @@
 ﻿@using Data.Models.Entities
 @using Data.Utilities
-@using Data.ViewModels.Modal
 @using Data.ViewModels.Region
 @using static Data.Utilities.Extensions;
 @model Tuple<RegionSearchViewModel, PaginatedList<Region>>
 
 @{
     ViewData["Title"] = "Region - List";
-    const string modalId = "delete";
-    const string ariaModalId = "delete-label";
 }
 
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 <hr />
 
 <form class="row" asp-action="List" method="post">
@@ -43,7 +39,9 @@
         <tr>
             <th>
                 <a asp-action="List"
+                   asp-route-RegionName="@Model.Item1.RegionName"
                    asp-route-SortBy="@Constants.Region.RegionName"
+                   asp-route-Page="@Model.Item2.PageIndex"
                    asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.RegionName, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Region
                 </a>
@@ -51,7 +49,9 @@
             </th>
             <th>
                 <a asp-action="List"
+                   asp-route-RegionName="@Model.Item1.RegionName"
                    asp-route-SortBy="@Constants.Region.RegionCode"
+                   asp-route-Page="@Model.Item2.PageIndex"
                    asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.RegionCode, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Region Code
                 </a>
@@ -59,7 +59,9 @@
             </th>
             <th>
                 <a asp-action="List"
+                   asp-route-RegionName="@Model.Item1.RegionName"
                    asp-route-SortBy="@Constants.Region.RegionKey"
+                   asp-route-Page="@Model.Item2.PageIndex"
                    asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.RegionKey, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Region Key
                 </a>
@@ -67,7 +69,9 @@
             </th>
             <th>
                 <a asp-action="List"
+                   asp-route-RegionName="@Model.Item1.RegionName"
                    asp-route-SortBy="@Constants.Region.Description"
+                   asp-route-Page="@Model.Item2.PageIndex"
                    asp-route-SortOrder="@Helpers.GetSortDirection(Constants.Region.Description, Model.Item1.SortBy, Model.Item1.SortOrder)">
                     Description
                 </a>
@@ -102,40 +106,54 @@
                     </td>
                     <td class="text-center">
                         <a asp-action="Edit" asp-route-id="@item.RegionId"><i class="fa fa-edit text-info"></i></a>
-                        <a data-toggle="modal" asp-action="Delete" data-target="#@modalId" asp-route-id="@item.RegionId"><i class="fa fa-trash text-danger"></i></a>
+                        <a href="#" onclick="showDeleteConfirmation('@string.Format(Constants.Message.DeletePrompt, item.RegionName)', event, @item.RegionId)"><i class="fa fa-trash text-danger"></i></a>
                     </td>
                 </tr>
             }
         }
     </tbody>
 </table>
+
+<form method="post" asp-action="Delete" id="formDelete" class="hidden">
+    <input type="hidden" id="id" name="id" />
+    <input type="hidden" asp-for="Item1.RegionName" name="RegionName" />
+    <input type="hidden" asp-for="Item1.Page" name="Page" />
+    <input type="hidden" asp-for="Item1.SortBy" name="SortBy" />
+    <input type="hidden" asp-for="Item1.SortOrder" name="SortOrder" />
+</form>
+
 @{
     var prevDisabled = !Model.Item2.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Item2.HasNextPage ? "disabled" : "";
 }
 <div class="row text-center">
     <a asp-action="List"
-       asp-route-SortBy="@Model.Item1.SortOrder"
+       asp-route-RegionName="@Model.Item1.RegionName"
+       asp-route-SortBy="@Model.Item1.SortBy"
        asp-route-Page="@(Model.Item2.PageIndex - 1)"
+       asp-route-SortOrder="@Model.Item1.SortOrder"
        class="btn btn-default @prevDisabled">
         <i class="fa fa-caret-left"></i> Previous
     </a>
     <a asp-action="List"
-       asp-route-SortBy="@Model.Item1.SortOrder"
+       asp-route-RegionName="@Model.Item1.RegionName"
+       asp-route-SortBy="@Model.Item1.SortBy"
        asp-route-Page="@(Model.Item2.PageIndex + 1)"
+       asp-route-SortOrder="@Model.Item1.SortOrder"
        class="btn btn-default @nextDisabled">
         Next <i class="fa fa-caret-right"></i>
     </a>
 </div>
 
-@await Html.PartialAsync("_Modal", new Modal
-{
-    Id = modalId,
-    AriaLabelId = ariaModalId,
-    Size = ModalSize.Medium
-})
+@section Scripts{
+    <script type="text/javascript">
+        function showDeleteConfirmation(message, event, id) {
+            event.preventDefault();
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    @{await Html.RenderPartialAsync("_ModalScriptsInit", modalId);}
+            showConfirmationModal(message).then(function () {
+                $("#id").val(id);
+                $("#formDelete").submit();
+            });
+        }
+    </script>
 }

@@ -1,33 +1,10 @@
-﻿@model string
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        (function($) {
-            function ModalInit() {
-                const $this = this;
-
-                function initilizeModel() {
-                    $("#@Model").on('loaded.bs.modal',
-                        function(e) {
-                        }).on('hidden.bs.modal',
-                        function(e) {
-                            $(this).removeData('bs.modal');
-                        });
-                }
-
-                $this.init = function() {
-                    initilizeModel();
-                };
-            }
-
-            $(function() {
-                const self = new ModalInit();
-                self.init();
-            });
-        }(jQuery));
-
-
-    });
-
-</script>
+﻿@using Data.Utilities
+@{
+    var text = TempData[Constants.Common.ModalMessage];
+    if (text != null && !text.Equals(string.Empty))
+    {
+        <script type="text/javascript">
+            showDefaultModal("@text");
+        </script>
+    }
+}

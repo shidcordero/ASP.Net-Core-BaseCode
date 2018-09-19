@@ -9,6 +9,9 @@
             public const string ModelStateErrors = "ModelStateErrors";
             public const string IdentityErrors = "IdentityErrors";
             public const string Xoauth2 = "XOAUTH2";
+            public const string ModalMessage = "ModalMessage";
+            public const string Previous = "prev";
+            public const string Next = "next";
         }
 
         public static class AppConfig
@@ -25,11 +28,13 @@
             public const string Error = "Error";
             public const string Confirm = "Confirm";
 
+            //Common message
+            public const string DeletePrompt = "Are you sure you want to delete the '{0}' record?";
+
             //Success message
             public const string RecordSuccessAdd = "Record successfully added.";
             public const string RecordSuccessUpdate = "Record successfully updated.";
             public const string RecordSuccessDelete = "Record successfully deleted.";
-            public const string RecordSuccessSave = "Record successfully saved.";
 
             //Error message
             public const string ErrorProcessing = "An error was encountered while processing the request.";
@@ -60,6 +65,13 @@
         }
 
         #region Sorting
+
+        public static class Sort
+        {
+            public const string SortBy = "SortBy";
+            public const string SortOrder = "SortOrder";
+            public const string Page = "Page";
+        }
 
         public static class SortDirection
         {
