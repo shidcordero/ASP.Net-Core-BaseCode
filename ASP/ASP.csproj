@@ -23,6 +23,9 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Update="Views\Account\UserRegion.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Region\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

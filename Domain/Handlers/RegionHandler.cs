@@ -51,7 +51,7 @@ namespace Domain.Handlers
 
             if (region != null)
             {
-                var dbRegion = await _regionService.Find(region.RegionId);
+                var dbRegion = await _regionService.FindById(region.RegionId);
                 if (dbRegion != null)
                 {
                     if (!region.RegionName.Equals(dbRegion.RegionName) && await _regionService.IsRegionExists(region.RegionName))
@@ -79,7 +79,7 @@ namespace Domain.Handlers
         public async Task<ValidationResult> CanDelete(int regionId)
         {
             ValidationResult validationResult = null;
-            var region = await _regionService.Find(regionId);
+            var region = await _regionService.FindById(regionId);
 
             if (region == null)
             {

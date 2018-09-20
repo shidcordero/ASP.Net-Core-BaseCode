@@ -1,4 +1,5 @@
-﻿using Data.Models.Entities;
+﻿using System.Security.Claims;
+using Data.Models.Entities;
 using Domain.Contracts;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
@@ -52,6 +53,19 @@ namespace Domain.Services
         public async Task<string> GeneratePasswordResetToken(AppUser user)
         {
             return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task SetUserRegion(ClaimsPrincipal user, int? id)
+        {
+            var currentUser = await _userManager.GetUserAsync(user);
+
+            currentUser.RegionId = id;
+            await _userManager.UpdateAsync(currentUser);
+        }
+
+        public async Task<AppUser> FindUserByClaims(ClaimsPrincipal user)
+        {
+            return await _userManager.GetUserAsync(user);
         }
     }
 }

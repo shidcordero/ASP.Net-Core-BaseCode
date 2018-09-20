@@ -1,9 +1,11 @@
-﻿using Data.Contracts;
+﻿using System.Collections.Generic;
+using Data.Contracts;
 using Data.Models.Entities;
 using Data.Utilities;
 using Data.ViewModels.Region;
 using Domain.Contracts;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Domain.Services
 {
@@ -16,9 +18,9 @@ namespace Domain.Services
             _regionRepository = regionRepository;
         }
 
-        public async Task<Region> Find(int id)
+        public async Task<Region> FindById(int id)
         {
-            return await _regionRepository.Find(id);
+            return await _regionRepository.FindById(id);
         }
 
         public async Task<Extensions.PaginatedList<Region>> FindRegions(RegionSearchViewModel searchViewModel)
@@ -54,6 +56,11 @@ namespace Domain.Services
         public async Task<bool> IsRegionInUsed(int id)
         {
             return await _regionRepository.IsRegionInUsed(id);
+        }
+
+        public async Task<List<SelectListItem>> GetRegionDropdown()
+        {
+            return await _regionRepository.GetRegionDropdown();
         }
     }
 }

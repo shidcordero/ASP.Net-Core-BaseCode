@@ -32,8 +32,6 @@ namespace Data.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
-                    b.Property<string>("EmailAddress");
-
                     b.Property<bool>("EmailConfirmed");
 
                     b.Property<string>("FirstName");
@@ -56,6 +54,8 @@ namespace Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<int?>("RegionId");
+
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
@@ -77,12 +77,14 @@ namespace Data.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("RegionId");
+
                     b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("Data.Models.Entities.EmailTemplate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TemplateId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -98,7 +100,7 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("NVARCHAR(50)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TemplateId");
 
                     b.ToTable("EmailTemplates");
                 });
@@ -246,6 +248,13 @@ namespace Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Data.Models.Entities.AppUser", b =>
+                {
+                    b.HasOne("Data.Models.Entities.Region", "Region")
+                        .WithMany()
+                        .HasForeignKey("RegionId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

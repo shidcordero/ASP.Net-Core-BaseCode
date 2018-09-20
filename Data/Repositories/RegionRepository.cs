@@ -5,9 +5,11 @@ using Data.Utilities;
 using Data.ViewModels.Region;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ValidationResult = Data.ViewModels.Common.ValidationResult;
 
 namespace Data.Repositories
@@ -18,9 +20,9 @@ namespace Data.Repositories
         {
         }
 
-        public async Task<Region> Find(int id)
+        public async Task<Region> FindById(int id)
         {
-            return await GetDbSet<Region>().FirstOrDefaultAsync(x => x.RegionId == id);
+            return await GetDbSet<Region>().AsNoTracking().FirstOrDefaultAsync(x => x.RegionId == id);
         }
 
         public async Task<Extensions.PaginatedList<Region>> FindRegions(RegionSearchViewModel searchViewModel)
@@ -29,7 +31,7 @@ namespace Data.Repositories
             if ((!string.IsNullOrEmpty(searchViewModel.SortOrder) && searchViewModel.SortOrder.Equals(Constants.SortDirection.Descending)))
                 sortDir = Constants.SortDirection.Descending;
 
-            var regions = GetDbSet<Region>()
+            var regions = GetDbSet<Region>().AsNoTracking()
                 .Where(x => (string.IsNullOrEmpty(searchViewModel.RegionName) || 
                              x.RegionName.Contains(searchViewModel.RegionName, StringComparison.OrdinalIgnoreCase)))
                 .OrderByPropertyName(searchViewModel.SortBy, sortDir);
@@ -127,15 +129,20 @@ namespace Data.Repositories
 
         public async Task<bool> IsRegionExists(string name)
         {
-            return await GetDbSet<Region>().AnyAsync(x =>
+            return await GetDbSet<Region>().AsNoTracking().AnyAsync(x =>
                 x.RegionName.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public async Task<bool> IsRegionInUsed(int id)
         {
-            //TODO add implementation when region is used
+            return await GetDbSet<AppUser>().AsNoTracking().AnyAsync(x => x.RegionId == id);
+        }
 
-            return false;
+        public async Task<List<SelectListItem>> GetRegionDropdown()
+        {
+            return await GetDbSet<Region>().Select(x =>
+                new SelectListItem(x.RegionName, x.RegionId.ToString())
+            ).ToListAsync();
         }
     }
 }

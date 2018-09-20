@@ -30,6 +30,7 @@ namespace ASP.Controllers
             _mapper = mapper;
         }
         
+        [HttpGet]
         public async Task<IActionResult> List(RegionSearchViewModel searchViewModel)
         {
             try
@@ -49,6 +50,7 @@ namespace ASP.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -94,9 +96,10 @@ namespace ASP.Controllers
             return View(regionViewModel);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var region = await _regionService.Find(id);
+            var region = await _regionService.FindById(id);
             if (region == null) return View();
 
             var regionViewModel = _mapper.Map<RegionViewModel>(region);
@@ -110,7 +113,7 @@ namespace ASP.Controllers
 
             if (regionViewModel.RegionId != null)
             {
-                var regionToUpdate = await _regionService.Find(regionViewModel.RegionId.Value);
+                var regionToUpdate = await _regionService.FindById(regionViewModel.RegionId.Value);
                 if (regionToUpdate == null)
                 {
                     // set IsNew to true and update model on view

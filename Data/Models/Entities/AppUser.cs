@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Models.Entities
 {
@@ -11,8 +12,10 @@ namespace Data.Models.Entities
 
         public string LastName { get; set; }
 
-        [DataType(DataType.EmailAddress)]
-        public string EmailAddress { get; set; }
+        public int? RegionId { get; set; }
+
+        [ForeignKey("RegionId")]
+        public virtual Region Region { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

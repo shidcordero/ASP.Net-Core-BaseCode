@@ -9,7 +9,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using ASP.Utilities;
+using Data.Utilities;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Helpers = ASP.Utilities.Helpers;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace ASP.Controllers
@@ -19,11 +21,13 @@ namespace ASP.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IRegionService _regionService;
         private readonly IEmailService _emailService;
 
-        public AccountController(IAccountService accountService, IEmailService emailService)
+        public AccountController(IAccountService accountService, IRegionService regionService, IEmailService emailService)
         {
             _accountService = accountService;
+            _regionService = regionService;
             _emailService = emailService;
         }
 
@@ -62,7 +66,7 @@ namespace ASP.Controllers
                 ModelState.AddModelError(new ValidationResult(exceptionMessage));
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+            ModelState.AddModelError(string.Empty, "Invalid username or password entered.");
             return View(model);
         }
 
@@ -219,6 +223,59 @@ namespace ASP.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> UserRegion()
+        {
+            if (User == null)
+            {
+                ModelState.AddModelError(string.Empty, Constants.Message.ErrorProcessing);
+
+                TempData[Constants.Common.ModalTitle] = Constants.Message.Error;
+                TempData[Constants.Common.ModalMessage] = Helpers.CreateValidationSummary(ModelState);
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            var ddl = await _regionService.GetRegionDropdown();
+            var user = await _accountService.FindUserByClaims(User);
+            ViewBag.RegionDropdown = new SelectList(ddl, "Value", "Text", user.RegionId);
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UserRegion(int? id)
+        {
+            try
+            {
+                if (User != null)
+                {
+                    await _accountService.SetUserRegion(User, id);
+
+                    TempData[Constants.Common.ModalMessage] = Constants.Message.RecordSuccessUpdate;
+                    return RedirectToAction(nameof(UserRegion));
+                }
+
+                ModelState.AddModelError(string.Empty, "User not found");
+
+                await _accountService.SignOut();
+
+                return RedirectToAction(nameof(UserRegion));
+            }
+            catch (Exception ex)
+            {
+                var exceptionMessage = await Helpers.GetErrors(ex, _emailService);
+                ModelState.AddModelError(new ValidationResult(exceptionMessage));
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid user update.");
+
+            TempData[Constants.Common.ModalTitle] = Constants.Message.Error;
+            TempData[Constants.Common.ModalMessage] = Helpers.CreateValidationSummary(ModelState);
+
+            return RedirectToAction(nameof(UserRegion));
+        }
+
 
         #region Helpers
 

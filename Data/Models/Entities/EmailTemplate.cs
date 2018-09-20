@@ -5,19 +5,8 @@ namespace Data.Models.Entities
 {
     public class EmailTemplate
     {
-        public EmailTemplate()
-        {
-        }
-
-        public EmailTemplate(int id, string subject, string body)
-        {
-            Id = id;
-            Body = body;
-            Subject = subject;
-        }
-
         [Key]
-        public int Id { get; set; }
+        public int TemplateId { get; set; }
 
         [Column(TypeName = "NVARCHAR(50)"), Required]
         public string TemplateName { get; set; }

@@ -16,14 +16,14 @@ namespace Data.Repositories
         {
         }
 
-        public async Task<EmailTemplate> FindById(int templateId)
+        public async Task<EmailTemplate> FindById(int id)
         {
-            return await GetDbSet<EmailTemplate>().FindAsync(templateId);
+            return await GetDbSet<EmailTemplate>().AsNoTracking().FirstOrDefaultAsync(x => x.TemplateId == id);
         }
 
         public async Task<EmailTemplate> FindByTemplateName(string templateName)
         {
-            return await GetDbSet<EmailTemplate>().FirstOrDefaultAsync(x => x.TemplateName == templateName);
+            return await GetDbSet<EmailTemplate>().AsNoTracking().FirstOrDefaultAsync(x => x.TemplateName == templateName);
         }
     }
 }

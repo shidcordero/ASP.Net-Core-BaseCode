@@ -1,4 +1,5 @@
-﻿using Data.Models.Entities;
+﻿using System.Security.Claims;
+using Data.Models.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 
@@ -17,5 +18,9 @@ namespace Domain.Contracts
         Task<IdentityResult> ResetPassword(AppUser user, string code, string password);
 
         Task<string> GeneratePasswordResetToken(AppUser user);
+
+        Task SetUserRegion(ClaimsPrincipal user, int? id);
+
+        Task<AppUser> FindUserByClaims(ClaimsPrincipal user);
     }
 }

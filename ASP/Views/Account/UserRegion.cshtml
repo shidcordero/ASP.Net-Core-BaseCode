@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "User Region";
+}
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form asp-action="UserRegion" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label>Region: </label>
+                    <select asp-items="ViewBag.RegionDropdown" name="id" class="form-control">
+                        <option>None</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                    <button type="button" onclick="history.go(-1); return false;" class="btn btn-info"><i class="fa fa-arrow-left"></i> Back</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

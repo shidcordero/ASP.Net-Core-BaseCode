@@ -5,7 +5,7 @@ namespace Data.Contracts
 {
     public interface IEmailTemplateRepository
     {
-        Task<EmailTemplate> FindById(int templateId);
+        Task<EmailTemplate> FindById(int id);
 
         Task<EmailTemplate> FindByTemplateName(string templateName);
     }
