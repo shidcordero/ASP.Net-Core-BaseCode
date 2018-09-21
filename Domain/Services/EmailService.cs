@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
 using System.Threading.Tasks;
+using EmailTemplate = Data.Utilities.Constants.EmailTemplate;
 
 namespace Domain.Services
 {
@@ -27,6 +28,10 @@ namespace Domain.Services
             _emailTemplateRepository = emailTemplateRepository;
         }
 
+        /// <summary>
+        /// Sends email request
+        /// </summary>
+        /// <param name="mailRequest">mail request data</param>
         private Task SendMailRequest(MailRequest mailRequest)
         {
             var mimeMessage = new MimeMessage();
@@ -99,11 +104,10 @@ namespace Domain.Services
         /// <summary>
         /// Used to send email notification for exception emails
         /// </summary>
-        /// <param name="exceptionName"></param>
-        /// <param name="exceptionMessage"></param>
-        /// <param name="stackTrace"></param>
-        /// <returns></returns>
-        public async Task<bool> SendExceptionEmail(string exceptionName, string exceptionMessage, string stackTrace)
+        /// <param name="exceptionName">holds the exception name</param>
+        /// <param name="stackTrace">holds the stacktrace</param>
+        /// <returns>Boolean Data</returns>
+        public async Task<bool> SendExceptionEmail(string exceptionName, string stackTrace)
         {
             var template = await _emailTemplateRepository.FindByTemplateName(_exceptionEmailConfig.TemplateName);
             if (template == null) return false;
@@ -111,24 +115,30 @@ namespace Domain.Services
             var mailRequest = new MailRequest
             {
                 To = _exceptionEmailConfig.To,
-                Subject = template.Subject,
-                Body = template.Body
+                Subject = string.Format(template.Subject, exceptionName),
+                Body = string.Format(template.Body, stackTrace)
             };
             await SendMailRequest(mailRequest);
 
             return true;
         }
 
+        /// <summary>
+        /// USed to send email notification for forgot password
+        /// </summary>
+        /// <param name="user">holds the user data</param>
+        /// <param name="url">holds the callback url</param>
+        /// <returns>Boolean data</returns>
         public async Task<bool> SendForgotPasswordEmail(AppUser user, string url)
         {
-            var template = await _emailTemplateRepository.FindByTemplateName(Constants.EmailTemplate.ForgotPassword);
+            var template = await _emailTemplateRepository.FindByTemplateName(EmailTemplate.ForgotPassword.TemplateName);
             if (template == null) return false;
 
             var mailRequest = new MailRequest
             {
                 To = _exceptionEmailConfig.To,
                 Subject = template.Subject,
-                Body = string.Format(template.Body, url)
+                Body = string.Format(template.Body, $"{user.FirstName} {user.LastName}", url)
             };
             await SendMailRequest(mailRequest);
 

@@ -13,7 +13,7 @@ namespace Domain.Handlers
         /// <summary>
         /// Instantiate RegionService
         /// </summary>
-        /// <param name="regionService"></param>
+        /// <param name="regionService">service instance</param>
         public RegionHandler(IRegionService regionService)
         {
             _regionService = regionService;

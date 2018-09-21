@@ -25,6 +25,6 @@ namespace Data.Contracts
 
         Task<bool> IsRegionInUsed(int id);
 
-        Task<List<SelectListItem>> GetRegionDropdown();
+        Task<List<SelectListItem>> GetRegionDropdownItem();
     }
 }

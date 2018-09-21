@@ -14,6 +14,8 @@
             public const string ModalSize = "ModalSize";
             public const string Previous = "prev";
             public const string Next = "next";
+            public const string Value = "Value";
+            public const string Text = "Text";
         }
 
         public static class AppConfig
@@ -57,7 +59,47 @@
 
         public static class EmailTemplate
         {
-            public const string ForgotPassword = "ForgotPassword";
+            public static class Exception
+            {
+                public const string TemplateName = "Exception Email";
+                public const string Subject = @"Exception - {0}";
+                public const string Body = @"<span>Hi Team,</span><br /><br />
+									<span>This is a message service to notify you that there is an exception occurs. Please see below the details.</span><br /><br />
+									<b>Exception Details:</b> <br /> 
+                                    <pre>{0}</pre><br />
+                                    <br /><br />
+                                    Thank you, <br /><b>ASP BaseCode</b><br /><br />
+                                    This is a system-generated email. Please do not reply to this email.<br /><br />
+                                    <b>LEGAL DISCLAIMER</b><br />
+                                    This email including any attachments transmitted with it, may contain
+                                    legally privileged, confidential or proprietary information. If you are not
+                                    the intended recipient or the employee responsible for delivery of this
+                                    message and its attachments to the intended recipient/s, YOU ARE HEREBY
+                                    NOTIFIED that any use, distribution, dissemination, or copying of this email
+                                    or any of the information contained herein is strictly prohibited. If you
+                                    have received this message in error, please immediately notify the sender
+                                    and delete this email message from your system.
+									";
+            }
+            public static class ForgotPassword
+            {
+                public const string TemplateName = "ForgotPassword";
+                public const string Subject = "Forgot Password";
+                public const string Body = @"<span>Hi {0},</span><br /><br />
+                                            <span>Please click the link to reset your password {1}.</span><br />
+                                            Thank you, <br /><b>ASP BaseCode</b><br /><br />
+                                            This is a system-generated email. Please do not reply to this email.<br /><br />
+                                            <b>LEGAL DISCLAIMER</b><br />
+                                            This email including any attachments transmitted with it, may contain
+                                            legally privileged, confidential or proprietary information. If you are not
+                                            the intended recipient or the employee responsible for delivery of this
+                                            message and its attachments to the intended recipient/s, YOU ARE HEREBY
+                                            NOTIFIED that any use, distribution, dissemination, or copying of this email
+                                            or any of the information contained herein is strictly prohibited. If you
+                                            have received this message in error, please immediately notify the sender
+                                            and delete this email message from your system.";
+            }
+
         }
 
         public static class ConfigurationString
@@ -83,7 +125,7 @@
 
         public static class SortIcon
         {
-            public const string Sort = "fa-sort";
+            public const string Unsorted = "fa-sort";
             public const string SortAscending = "fa-sort-asc";
             public const string SortDescending = "fa-sort-desc";
         }

@@ -13,16 +13,28 @@ namespace Data.Repositories
             Database = serviceContext;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Save synchronously any changes synchronously
+        /// </summary>
         public void SaveChanges()
         {
             Database.SaveChanges();
         }
 
+        /// <summary>
+        /// Save asynchronously any change from the database
+        /// </summary>
+        /// <returns></returns>
         public async Task SaveChangesAsync()
         {
             await Database.SaveChangesAsync();
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Dispose Database Instance
+        /// </summary>
         public void Dispose()
         {
             Database.Dispose();

@@ -10,9 +10,9 @@ namespace ASP.Extensions
     public static class ControllerExtensions
     {
         /// <summary>
-        /// Adds a model errors for each validation result from the business service.
+        /// Adds a controller errors for each validation result from the business service.
         /// </summary>
-        /// <param name="controller"></param>
+        /// <param name="controller">Controller instance to be extended</param>
         /// <param name="validationResults">The validation results from a business service.</param>
         /// <param name="defaultErrorKey">The default key to use if a field is not specified in a business service validation result.</param>
         public static void AddControllerErrors(this Controller controller, IEnumerable<ValidationResult> validationResults, string defaultErrorKey = null)
@@ -39,8 +39,8 @@ namespace ASP.Extensions
         /// <summary>
         /// Adds a model errors for each validation result from the business service.
         /// </summary>
-        /// <param name="validationResults">The validation results from a business service.</param>
         /// <param name="modelState">The model state dictionary used to add errors.</param>
+        /// <param name="validationResults">The validation results from a business service.</param>
         /// <param name="defaultErrorKey">The default key to use if a field is not specified in a business service validation result.</param>
         public static void AddModelErrors(this ModelStateDictionary modelState, IEnumerable<ValidationResult> validationResults, string defaultErrorKey = null)
         {
@@ -53,7 +53,7 @@ namespace ASP.Extensions
         }
 
         /// <summary>
-        /// Adds a model error for each validation result from the business service.
+        /// Adds a model error for a validation result from the business service.
         /// </summary>
         /// <param name="validationResult">The validation result from a business service.</param>
         /// <param name="modelState">The model state dictionary used to add errors.</param>
@@ -65,7 +65,7 @@ namespace ASP.Extensions
         }
 
         /// <summary>
-        /// Adds a model error for each Identity result from the business service.
+        /// Adds a model error for a Identity Result from the business service.
         /// </summary>
         /// <param name="modelState">The model state dictionary used to add errors.</param>
         /// <param name="result">Identity Result instance</param>

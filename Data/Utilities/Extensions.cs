@@ -78,9 +78,9 @@ namespace Data.Utilities
         /// <summary>
         /// Extension for object checking if null
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Holds the Type of object</typeparam>
+        /// <param name="obj">Holds the object to be check</param>
+        /// <returns>Boolean data</returns>
         public static bool ObjectIsNull<T>(this T obj) where T : class
         {
             return obj == null;
@@ -89,10 +89,10 @@ namespace Data.Utilities
         /// <summary>
         /// Extension for object reflective equal
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="obj2"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Holds the Type of object</typeparam>
+        /// <param name="obj">Holds the 1st data to be compared</param>
+        /// <param name="obj2">Holds the 2nd data to be compared</param>
+        /// <returns>Object</returns>
         public static T ReflectiveEquals<T>(this T obj, T obj2) where T : class
         {
             var returnObject = obj;
@@ -124,15 +124,27 @@ namespace Data.Utilities
             return returnObject;
         }
 
+        /// <summary>
+        /// Extension for string contains
+        /// </summary>
+        /// <param name="source">Holds the source</param>
+        /// <param name="toCheck">Holds the string to check</param>
+        /// <param name="comp">Holds the string comparison culture</param>
+        /// <returns>Boolean data</returns>
         public static bool Contains(this string source, string toCheck, StringComparison comp)
         {
             return source?.IndexOf(toCheck, comp) >= 0;
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Custom Extension to have Paginated Property
+        /// </summary>
+        /// <typeparam name="T">Holds the Type of object</typeparam>
         public class PaginatedList<T> : List<T>
         {
-            public int PageIndex { get; private set; }
-            public int TotalPages { get; private set; }
+            public int PageIndex { get; }
+            public int TotalPages { get; }
 
             public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize)
             {
@@ -146,6 +158,13 @@ namespace Data.Utilities
 
             public bool HasNextPage => (PageIndex < TotalPages);
 
+            /// <summary>
+            /// Creates a Paginated List
+            /// </summary>
+            /// <param name="source">Holds the source data</param>
+            /// <param name="pageIndex">Current Page Index</param>
+            /// <param name="pageSize">Current Page Size</param>
+            /// <returns>Paginated List</returns>
             public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
             {
                 var count = await source.CountAsync();

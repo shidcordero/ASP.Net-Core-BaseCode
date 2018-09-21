@@ -6,25 +6,33 @@ namespace ASP.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// Loads the Index View
+        /// </summary>
         public IActionResult Index()
         {
             return View();
         }
 
+        /// <summary>
+        /// Loads the About View
+        /// </summary>
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
+        /// <summary>
+        /// Loads the Contact View
+        /// </summary>
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
+        /// <summary>
+        /// Loads the Error View
+        /// </summary>
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

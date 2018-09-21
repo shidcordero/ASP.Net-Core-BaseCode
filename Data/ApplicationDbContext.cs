@@ -1,9 +1,7 @@
-﻿using System;
-using System.Data.SqlClient;
-using Data.Models.Entities;
+﻿using Data.Models.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using EmailTemplateConstants = Data.Utilities.Constants.EmailTemplate;
 
 namespace Data
 {
@@ -19,7 +17,7 @@ namespace Data
 
         /// <inheritdoc />
         /// <summary>
-        /// Used to seed data to database
+        /// Function to modify database structure or seed data
         /// </summary>
         /// <param name="modelBuilder">Instance of modelBuilder</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -27,8 +25,39 @@ namespace Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Region>().HasData(
-                new { RegionId = 1, RegionName = "EU", RegionCode = "0", RegionKey = "EU", Description = "Europe" },
-                new { RegionId = 2, RegionName = "KOREA", RegionCode = "5", RegionKey = "AS", Description = "Korea" }
+                new
+                {
+                    RegionId = 1,
+                    RegionName = "EU",
+                    RegionCode = "0",
+                    RegionKey = "EU",
+                    Description = "Europe"
+                },
+                new
+                {
+                    RegionId = 2,
+                    RegionName = "KOREA",
+                    RegionCode = "5",
+                    RegionKey = "AS",
+                    Description = "Korea"
+                }
+            );
+
+            modelBuilder.Entity<EmailTemplate>().HasData(
+                new
+                {
+                    TemplateId = 1,
+                    EmailTemplateConstants.ForgotPassword.TemplateName,
+                    EmailTemplateConstants.ForgotPassword.Subject,
+                    EmailTemplateConstants.ForgotPassword.Body
+                },
+                new
+                {
+                    TemplateId = 2,
+                    EmailTemplateConstants.Exception.TemplateName,
+                    EmailTemplateConstants.Exception.Subject,
+                    EmailTemplateConstants.Exception.Body
+                }
             );
         }
     }

@@ -1,5 +1,4 @@
-﻿// Initialize modal scripts using bootbox
-
+﻿// Showing message modal using Bootbox library
 function showDefaultModal(message, title, size, confirmText = "Ok") {
     bootbox.alert({
         title: title,
@@ -14,6 +13,7 @@ function showDefaultModal(message, title, size, confirmText = "Ok") {
     });
 }
 
+// Showing confirmation modal using Bootbox library
 function showConfirmationModal(message, title = "Confirm", size = "medium", confirmText = "Yes", canceltext = "No") {
     const deffered = $.Deferred();
 

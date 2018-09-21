@@ -13,7 +13,7 @@ namespace Domain.Contracts
 
         Task<IdentityResult> Register(AppUser user, string password);
 
-        Task<AppUser> FindUser(string email);
+        Task<AppUser> FindUserByEmail(string email);
 
         Task<IdentityResult> ResetPassword(AppUser user, string code, string password);
 
@@ -21,6 +21,6 @@ namespace Domain.Contracts
 
         Task SetUserRegion(ClaimsPrincipal user, int? id);
 
-        Task<AppUser> FindUserByClaims(ClaimsPrincipal user);
+        Task<AppUser> FindUserByClaims(ClaimsPrincipal claims);
     }
 }

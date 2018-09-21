@@ -1,11 +1,14 @@
 ﻿@using Data.Utilities
 @{
+    // gets the Modal Data set from controller
     var message = TempData[Constants.Common.ModalMessage];
     var title = TempData[Constants.Common.ModalTitle] ?? "Info";
     var size = TempData[Constants.Common.ModalSize] ?? "medium";
+    // check if theres a message set
     if (message != null && !message.Equals(string.Empty))
     {
         <script type="text/javascript">
+            // if true, show message modal 
             showDefaultModal("@Html.Raw(message)", "@title", "@size");
         </script>
     }
